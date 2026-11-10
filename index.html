@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MBK HOTEL | Premium Digital Menu</title>
+
+<style>
+:root {
+  --gold:#e9b94d;
+  --dark:#090a0e;
+  --card:rgba(23, 25, 32, 0.85);
+  --white:#fff;
+}
+* {box-sizing:border-box}
+body {
+ margin:0;
+ background:var(--dark);
+ color:white;
+ font-family:Arial,sans-serif;
+ overflow-x:hidden;
+ min-height:100vh;
+}
+body:before {
+ content:"";
+ position:fixed;
+ inset:0;
+ background:radial-gradient(circle at center, rgba(233,185,77,0.1) 0%, rgba(9,10,14,0.95) 80%);
+ pointer-events:none;
+ z-index:-2;
+}
+.floating-emojis {
+ position:fixed;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ pointer-events:none;
+ overflow:hidden;
+ z-index:-1;
+}
+.f-emoji {
+ position:absolute;
+ font-size:24px;
+ opacity:0.3;
+ animation: floatUp 12s linear infinite;
+}
+@keyframes floatUp {
+ 0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+ 20% { opacity: 0.35; }
+ 80% { opacity: 0.35; }
+ 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+header {
+ text-align:center;
+ padding:20px 12px;
+ background:linear-gradient(135deg, rgba(17,17,17,0.95), rgba(39,34,26,0.95));
+ border-bottom:2px solid var(--gold);
+ backdrop-filter: blur(12px);
+ position:relative;
+ z-index:1;
+}
+.top-bar {
+ display: flex;
+ justify-content: center;
+ gap: 8px;
+ flex-wrap: wrap;
+ margin-bottom: 10px;
+ font-size: 12px;
+}
+.top-btn {
+ background: rgba(233,185,77,0.15);
+ border: 1px solid var(--gold);
+ color: var(--gold);
+ padding: 5px 10px;
+ border-radius: 20px;
+ text-decoration: none;
+ font-weight: bold;
+}
+.logo-container {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ margin-top: 5px;
+}
+.crown {
+ font-size: 26px;
+ color: var(--gold);
+ animation: glow 2s ease-in-out infinite alternate;
+ margin-bottom: -5px;
+}
+@keyframes glow {
+ from { text-shadow: 0 0 5px rgba(233,185,77,0.5); }
+ to { text-shadow: 0 0 20px rgba(233,185,77,0.9), 0 0 30px var(--gold); }
+}
+h1 {
+ color: var(--gold);
+ font-family: Georgia, serif;
+ font-size: 34px;
+ letter-spacing: 3px;
+ margin: 5px 0 2px;
+ text-shadow: 0 2px 10px rgba(233,185,77,0.3);
+}
+.tag {
+ color: #ddd;
+ font-family: Georgia, serif;
+ font-style: italic;
+ font-size: 13px;
+}
+.goldline {
+ width: 120px;
+ height: 2px;
+ background: var(--gold);
+ margin: 10px auto;
+ box-shadow: 0 0 8px var(--gold);
+}
+.layout {
+ display: flex;
+ max-width: 1100px;
+ margin: auto;
+ padding: 15px 12px 100px;
+ justify-content: center;
+ position: relative;
+ z-index: 1;
+}
+.content { width: 100%; max-width: 800px; }
+.pagination-bar {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ background: var(--card);
+ border: 1px solid rgba(233,185,77,0.4);
+ padding: 10px 15px;
+ border-radius: 12px;
+ margin-bottom: 18px;
+ backdrop-filter: blur(12px);
+ box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.pagination-bar button {
+ background: var(--gold);
+ border: none;
+ padding: 8px 14px;
+ border-radius: 8px;
+ font-weight: bold;
+ cursor: pointer;
+ color: #111;
+ font-size: 13px;
+}
+.pagination-bar button:disabled {
+ background: #222;
+ color: #555;
+ cursor: not-allowed;
+}
+.cat-indicator {
+ color: var(--gold);
+ font-weight: bold;
+ font-family: Georgia, serif;
+ font-size: 17px;
+ text-align: center;
+}
+.items {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+ gap: 12px;
+}
+.item {
+ background: var(--card);
+ border: 1px solid rgba(233,185,77,0.25);
+ border-radius: 12px;
+ padding: 14px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ gap: 8px;
+ backdrop-filter: blur(12px);
+ box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.item-name {
+ font-weight: 800;
+ font-size: 15px;
+ line-height: 1.3;
+ color: #fff;
+}
+.price {
+ color: var(--gold);
+ font-size: 16px;
+ font-weight: bold;
+ margin-top: 5px;
+}
+.qty {
+ display: flex;
+ align-items: center;
+ gap: 8px;
+}
+.qty button {
+ width: 32px;
+ height: 32px;
+ border: 0;
+ border-radius: 50%;
+ background: var(--gold);
+ color: #111;
+ font-size: 18px;
+ font-weight: bold;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+.qty span { font-weight: bold; min-width: 15px; text-align: center; color: var(--gold); }
+.sold {
+ color: #ff7373;
+ font-size: 12px;
+ font-weight: bold;
+}
+.panel {
+ background: var(--card);
+ border: 1px solid rgba(233,185,77,0.4);
+ border-radius: 15px;
+ padding: 18px;
+ margin-top: 22px;
+ backdrop-filter: blur(12px);
+ box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.panel h2 { color: var(--gold); font-size: 20px; margin-top: 0; }
+input {
+ width: 100%;
+ padding: 12px;
+ background: rgba(13,14,19,0.9);
+ border: 1px solid rgba(233,185,77,0.3);
+ border-radius: 8px;
+ color: white;
+ margin: 6px 0 12px;
+ font-size: 14px;
+}
+input:focus {
+ outline: none;
+ border-color: var(--gold);
+ box-shadow: 0 0 8px rgba(233,185,77,0.4);
+}
+.mode {
+ display: flex;
+ gap: 12px;
+ flex-wrap: wrap;
+ margin: 10px 0;
+}
+.mode label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.mode input { width: auto; margin: 0; }
+.cartline {
+ display: flex;
+ justify-content: space-between;
+ padding: 8px 0;
+ border-bottom: 1px solid rgba(255,255,255,0.1);
+ font-size: 14px;
+}
+.total {
+ display: flex;
+ justify-content: space-between;
+ color: var(--gold);
+ font-size: 20px;
+ font-weight: bold;
+ margin-top: 15px;
+ padding-top: 10px;
+ border-top: 1px solid rgba(233,185,77,0.3);
+}
+.orderbtn {
+ width: 100%;
+ padding: 14px;
+ border: 0;
+ border-radius: 30px;
+ background: linear-gradient(90deg, #c48d29, #ffdc78);
+ color: #111;
+ font-size: 15px;
+ font-weight: 900;
+ margin-top: 15px;
+ cursor: pointer;
+ box-shadow: 0 4px 15px rgba(233,185,77,0.4);
+}
+.hidden { display: none !important; }
+.adminrow {
+ display: flex;
+ justify-content: space-between;
+ gap: 8px;
+ padding: 8px 0;
+ border-bottom: 1px solid rgba(255,255,255,0.1);
+ font-size: 13px;
+ align-items: center;
+}
+.adminrow button {
+ background: var(--gold);
+ border: 0;
+ padding: 6px 10px;
+ border-radius: 6px;
+ font-weight: bold;
+ cursor: pointer;
+ color: #111;
+ font-size: 11px;
+}
+footer {
+ text-align: center;
+ padding: 40px 20px 80px 20px;
+ border-top: 1px solid rgba(233,185,77,0.2);
+ color: #aaa;
+ font-size: 13px;
+ position: relative;
+ z-index: 1;
+ background: rgba(9,10,14,0.9);
+}
+footer a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+
+<body>
+
+<div class="floating-emojis">
+ <span class="f-emoji" style="left:8%; animation-delay:0s;">🍗</span>
+ <span class="f-emoji" style="left:22%; animation-delay:3s;">✨</span>
+ <span class="f-emoji" style="left:38%; animation-delay:1s;">🥩</span>
+ <span class="f-emoji" style="left:55%; animation-delay:4s;">🔥</span>
+ <span class="f-emoji" style="left:72%; animation-delay:2s;">🍛</span>
+ <span class="f-emoji" style="left:88%; animation-delay:5s;">👑</span>
+</div>
+
+<header>
+ <div class="top-bar">
+  <a class="top-btn" href="tel:8367873518">📞 Order: 8367873518</a>
+  <a class="top-btn" href="tel:9072820022">☎️ Support: 90728 20022</a>
+  <a class="top-btn" href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK" target="_blank">⭐ Google Review</a>
+ </div>
+
+ <div class="logo-container">
+  <div class="crown">👑</div>
+  <h1>MBK HOTEL</h1>
+ </div>
+ <div class="tag">Good Food... Good Mood...</div>
+ <div class="goldline"></div>
+</header>
+
+<div class="layout">
+<main class="content">
+
+ <div class="pagination-bar">
+  <button id="prevBtn" onclick="changeCategory(-1)">❮ Prev</button>
+  <div class="cat-indicator" id="categoryTitle">Loading...</div>
+  <button id="nextBtn" onclick="changeCategory(1)">Next ❯</button>
+ </div>
+
+ <div class="items" id="items"></div>
+
+ <section class="panel" id="checkout">
+  <h2>🛒 YOUR ORDER</h2>
+  <div id="cart" style="color:#ccc;">Your cart is empty.</div>
+  <div class="total">
+   <span>Total</span>
+   <span id="total">₹0</span>
+  </div>
+
+  <h2 style="margin-top:20px;">Customer Details</h2>
+  <div class="mode">
+   <label><input type="radio" name="mode" value="Dine-in" checked onchange="changeMode()"> Dine-in</label>
+   <label><input type="radio" name="mode" value="Delivery" onchange="changeMode()"> Delivery</label>
+  </div>
+
+  <label>Your Name</label>
+  <input id="customer" placeholder="Enter your name">
+
+  <div id="tableBox">
+   <label>Table Number</label>
+   <input id="table" placeholder="Enter table number">
+  </div>
+
+  <div id="deliveryBox" class="hidden">
+   <label>Phone Number</label>
+   <input id="phone" placeholder="Enter phone number">
+   <label>Delivery Location</label>
+   <input id="address" placeholder="Enter full delivery address">
+  </div>
+
+  <button class="orderbtn" onclick="placeOrder()">PLACE ORDER ON WHATSAPP / SMS</button>
+ </section>
+
+ <section class="panel hidden" id="admin">
+  <h2>OWNER DASHBOARD (PIN: 2222)</h2>
+  <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+   <button onclick="switchTab('stock')" style="background:var(--gold); border:none; padding:6px 12px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:12px;">Menu & Stock</button>
+   <button onclick="switchTab('history')" style="background:#333; color:white; border:none; padding:6px 12px; font-weight:bold; border-radius:6px; cursor:pointer; font-size:12px;">Order History</button>
+  </div>
+
+  <div id="adminStockView">
+   <div style="background:rgba(233,185,77,0.1); padding:10px; border-radius:8px; margin-bottom:12px; border:1px solid var(--gold);">
+    <h3 style="color:var(--gold); margin:0 0 8px 0; font-size:14px;">➕ Add New Item</h3>
+    <input id="newItemName" placeholder="Item Name" style="margin-bottom:6px;">
+    <input id="newItemPrice" type="number" placeholder="Price (₹)" style="margin-bottom:6px;">
+    <select id="newItemCat" style="width:100%; padding:10px; background:#0d0e13; border:1px solid rgba(233,185,77,0.3); border-radius:8px; color:white; margin-bottom:8px;"></select>
+    <button onclick="addNewItem()" style="background:var(--gold); border:none; padding:8px 15px; font-weight:bold; border-radius:6px; cursor:pointer; color:#111; width:100%;">Add Item to Menu</button>
+   </div>
+   <div id="adminItems"></div>
+  </div>
+
+  <div id="adminHistoryView" class="hidden">
+   <h3 style="color:var(--gold)">Past Orders History</h3>
+   <div id="orderHistoryList"></div>
+   <button onclick="clearHistory()" style="background:#ff7373; border:0; padding:6px 10px; border-radius:6px; font-weight:bold; margin-top:10px; cursor:pointer; color:#111;">Clear History</button>
+  </div>
+
+  <button class="orderbtn" style="background:#444; color:white; margin-top:15px;" onclick="logout()">LOG OUT</button>
+ </section>
+
+</main>
+</div>
+
+<footer>
+ <h2 style="color:#e9b94d; margin:0 0 5px 0; font-size:18px;">MBK HOTEL</h2>
+ Good Food... Good Mood...
+ <p style="margin:8px 0;">Orders: <a href="tel:8367873518">8367873518</a> | Support: <a href="tel:9072820022">90728 20022</a></p>
+</footer>
+
+<script>
+const defaultGroups = [
+  ["Alfaham", [
+    ["Alfaham Normal", 120],
+    ["Alfaham Peri Peri", 130],
+    ["Alfaham Pepper", 130],
+    ["Alfaham Honey", 140],
+    ["Alfaham Afghani", 140],
+    ["Alfaham Kandhari", 140]
+  ]],
+  ["Beef Special", [
+    ["Beef Fry", 120],
+    ["Beef Chilli", 130],
+    ["Beef Masala", 160],
+    ["Beef Pepper", 160],
+    ["Beef Roast", 160],
+    ["Beef Kondattam", 170],
+    ["Beef Chilli Gravy", 170],
+    ["Beef Manjuri", 170]
+  ]],
+  ["Chicken Dishes", [
+    ["Chicken 65", 120],
+    ["Chicken Chilli", 120],
+    ["Chicken Masala", 150],
+    ["Chicken Kondattam", 150],
+    ["Chicken Pepper", 160],
+    ["Chicken Manchurian", 160],
+    ["Chicken Garlic", 160],
+    ["Chicken Ginger", 160],
+    ["Chicken Roast", 160],
+    ["Chicken Chukka", 160],
+    ["Chicken Kadai", 170],
+    ["Chicken Kuruma", 170],
+    ["Chicken Butter", 170],
+    ["Chicken Tiger", 170],
+    ["Chicken Dragon", 190]
+  ]],
+  ["Vegetarian", [
+    ["Mix Vege Masala", 80],
+    ["Green Pees Kuruma", 80],
+    ["Mix Vege Kuruma", 100],
+    ["Mix Vege Kadai", 120],
+    ["Gopi Manjuri", 120],
+    ["Gopi Chilli", 120]
+  ]],
+  ["Indian Bread", [
+    ["Chappathi", 12],
+    ["Parotta", 13],
+    ["Nool Porotta", 20],
+    ["Atta Porotta", 20],
+    ["Tandoori Roti", 20],
+    ["Butter Roti", 25],
+    ["Plain Naan", 20],
+    ["Butter Naan", 30]
+  ]],
+  ["Chicken Fried Rice", [
+    ["Veg. Fried Rice", 120],
+    ["Egg Fried Rice", 130],
+    ["Chicken Fried Rice", 140],
+    ["Schezwan Fried Rice", 160],
+    ["Mixed Fried Rice", 170]
+  ]],
+  ["Biryani Special", [
+    ["Chicken Biryani", 120],
+    ["Chicken Biryani Half", 70],
+    ["Kuttan Biryani", 130],
+    ["Kuttan Biryani Half", 80]
+  ]],
+  ["Alfaham Mandhi", [
+    ["Normal Alfaham Mandhi (Q)", 160],
+    ["Peri Peri Alfaham Mandhi (Q)", 170],
+    ["Pepper Alfaham Mandhi (Q)", 170],
+    ["Afghani Alfaham Mandhi (Q)", 200],
+    ["Honey Alfaham Mandhi (Q)", 180]
+  ]],
+  ["Beverages & Tea", [
+    ["Cutan Tea", 10],
+    ["Tea", 12],
+    ["Coffee", 20],
+    ["Horlicks", 20]
+  ]]
+];
+
+const k = n => String(n).toLowerCase();
+let groups = JSON.parse(localStorage.getItem("mbkMenuGroups") || JSON.stringify(defaultGroups));
+let cart = {};
+let stock = JSON.parse(localStorage.getItem("mbkStock") || "{}");
+let orderHistory = JSON.parse(localStorage.getItem("mbkOrders") || "[]");
+let current = 0;
+
+function saveMenu() {
+  localStorage.setItem("mbkMenuGroups", JSON.stringify(groups));
+}
+
+function saveStock() {
+  localStorage.setItem("mbkStock", JSON.stringify(stock));
+}
+
+function saveHistory() {
+  localStorage.setItem("mbkOrders", JSON.stringify(orderHistory));
+}
+
+function setup() {
+  populateCategoryDropdown();
+  if (window.location.hash === '#admin') {
+    setTimeout(adminLogin, 300);
+  }
+  showCategory(0);
+  changeMode();
+}
+
+function populateCategoryDropdown() {
+  const sel = document.getElementById("newItemCat");
+  if (!sel) return;
+  sel.innerHTML = groups.map((g, i) => `<option value="${i}">${g[0]}</option>`).join("");
+}
+
+function changeCategory(dir) {
+  current += dir;
+  if (current < 0) current = 0;
+  if (current >= groups.length) current = groups.length - 1;
+  showCategory(current);
+}
+
+function showCategory(i) {
+  current = i;
+  const title = document.getElementById("categoryTitle");
+  if (title) title.textContent = `${groups[i][0]} (${i + 1}/${groups.length})`;
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  if (prevBtn) prevBtn.disabled = (i === 0);
+  if (nextBtn) nextBtn.disabled = (i === groups.length - 1);
+  renderItems();
+}
+
+function renderItems() {
+  const items = groups[current][1];
+  const container = document.getElementById("items");
+  if (!container) return;
+
+  if (items.length === 0) {
+    container.innerHTML = `<p style="color:#aaa; text-align:center; grid-column:1/-1;">No items in this category.</p>`;
+    renderCart();
+    return;
+  }
+
+  container.innerHTML = items.map(([n, p]) => {
+    const sold = stock[k(n)] === false;
+    return `<div class="item">
+      <div>
+        <div class="item-name">${n}</div>
+        <div class="price">₹${p}</div>
+        ${sold ? '<div class="sold">SOLD OUT</div>' : ''}
+      </div>
+      <div class="qty">
+        ${sold ? '<span class="sold">Unavailable</span>' : `<button onclick="changeQty(${JSON.stringify(n)}, -1)">−</button><span>${cart[k(n)] || 0}</span><button onclick="changeQty(${JSON.stringify(n)}, 1)">+</button>`}
+      </div>
+    </div>`;
+  }).join("");
+
+  renderCart();
+}
+
+function changeQty(n, d) {
+  const key = k(n);
+  if (stock[key] === false) return;
+  cart[key] = Math.max(0, (cart[key] || 0) + d);
+  if (!cart[key]) delete cart[key];
+  renderItems();
+}
+
+function renderCart() {
+  let lines = [];
+  let sum = 0;
+
+  groups.forEach(([cat, items]) => {
+    items.forEach(([n, p]) => {
+      const q = cart[k(n)] || 0;
+      if (q) {
+        lines.push(`<div class="cartline"><span>${n} × ${q}</span><b>₹${p * q}</b></div>`);
+        sum += p * q;
+      }
+    });
+  });
+
+  const cartEl = document.getElementById("cart");
+  const totalEl = document.getElementById("total");
+  if (cartEl) cartEl.innerHTML = lines.join("") || "Your cart is empty.";
+  if (totalEl) totalEl.textContent = "₹" + sum;
+}
+
+function changeMode() {
+  const mode = document.querySelector('input[name="mode"]:checked')?.value || 'Dine-in';
+  const delivery = mode === "Delivery";
+  const tableBox = document.getElementById("tableBox");
+  const deliveryBox = document.getElementById("deliveryBox");
+  if (tableBox) tableBox.classList.toggle("hidden", delivery);
+  if (deliveryBox) deliveryBox.classList.toggle("hidden", !delivery);
+}
+
+function placeOrder() {
+  let selected = [];
+  let sum = 0;
+  let invalid = false;
+
+  groups.forEach(([cat, items]) => {
+    items.forEach(([n, p]) => {
+      const q = cart[k(n)] || 0;
+      if (q) {
+        if (stock[k(n)] === false) {
+          invalid = true;
+          return;
+        }
+        selected.push(`${n} x ${q} = ₹${p * q}`);
+        sum += p * q;
+      }
+    });
+  });
+
+  if (invalid) return alert("One selected item is sold out. Please update your cart.");
+  if (!selected.length) return alert("Please select an item.");
+
+  const name = document.getElementById("customer").value.trim();
+  if (!name) return alert("Enter your name.");
+
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  let details = "";
+
+  if (mode === "Dine-in") {
+    const table = document.getElementById("table").value.trim();
+    if (!table) return alert("Enter your table number.");
+    details = "Table: " + table;
+  } else {
+    const phone = document.getElementById("phone").value.trim();
+    const address = document.getElementById("address").value.trim();
+    if (!phone || !address) return alert("Enter your phone and delivery address.");
+    details = `Phone: ${phone}\nDelivery location: ${address}`;
+  }
+
+  const orderData = {
+    time: new Date().toLocaleTimeString(),
+    date: new Date().toLocaleDateString(),
+    mode,
+    name,
+    details,
+    items: selected,
+    total: sum
+  };
+
+  orderHistory.unshift(orderData);
+  saveHistory();
+
+  const msg = `*NEW ORDER - MBK HOTEL*\n\nType: ${mode}\nName: ${name}\n${details}\n\n${selected.join("\n")}\n\n*TOTAL: ₹${sum}*`;
+  window.open("https://wa.me/918367873518?text=" + encodeURIComponent(msg), "_blank");
+
+  setTimeout(() => {
+    window.location.href = `sms:8367873518?body=` + encodeURIComponent(msg);
+  }, 1000);
+
+  cart = {};
+  renderItems();
+}
+
+function adminLogin() {
+  const pass = prompt("Enter owner PIN (2222)");
+  if (pass === "2222") {
+    document.getElementById("admin").classList.remove("hidden");
+    renderAdmin();
+    renderHistory();
+    document.getElementById("admin").scrollIntoView({ behavior: 'smooth' });
+  } else if (pass !== null) {
+    alert("Incorrect PIN");
+  }
+}
+
+function switchTab(tab) {
+  const stockView = document.getElementById("adminStockView");
+  const historyView = document.getElementById("adminHistoryView");
+
+  if (tab === 'stock') {
+    stockView.classList.remove("hidden");
+    historyView.classList.add("hidden");
+  } else {
+    stockView.classList.add("hidden");
+    historyView.classList.remove("hidden");
+  }
+}
+
+function renderAdmin() {
+  let out = "";
+
+  groups.forEach(([cat, items], cIdx) => {
+    out += `<h3 style="color:var(--gold); font-size:15px; margin:10px 0 5px 0;">${cat}</h3>`;
+    items.forEach(([n, p], iIdx) => {
+      const sold = stock[k(n)] === false;
+      out += `<div class="adminrow">
+        <span><b>${n}</b> (₹${p})</span>
+        <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end;">
+          <button onclick="editItemName(${cIdx}, ${iIdx})" style="background:#2196F3; color:white;">Edit Name</button>
+          <button onclick="editPrice(${cIdx}, ${iIdx})" style="background:#44a044; color:white;">Edit ₹</button>
+          <button onclick="toggleStock(${JSON.stringify(n)})">${sold ? "IN STOCK" : "SOLD OUT"}</button>
+          <button onclick="deleteItem(${cIdx}, ${iIdx})" style="background:#ff7373; color:white;">✕</button>
+        </div>
+      </div>`;
+    });
+  });
+
+  document.getElementById("adminItems").innerHTML = out;
+}
+
+function editItemName(cIdx, iIdx) {
+  const item = groups[cIdx][1][iIdx];
+  const newN = prompt(`Edit name for ${item[0]}:`, item[0]);
+  if (newN !== null && newN.trim() !== "") {
+    const oldKey = k(item[0]);
+    const newKey = k(newN.trim());
+    if (stock[oldKey] !== undefined && oldKey !== newKey) {
+      stock[newKey] = stock[oldKey];
+      delete stock[oldKey];
+    }
+    groups[cIdx][1][iIdx][0] = newN.trim();
+    saveMenu();
+    saveStock();
+    renderAdmin();
+    renderItems();
+    populateCategoryDropdown();
+  }
+}
+
+function editPrice(cIdx, iIdx) {
+  const item = groups[cIdx][1][iIdx];
+  const newP = prompt(`Enter new price for ${item[0]}:`, item[1]);
+  if (newP !== null && newP.trim() !== "") {
+    const parsed = Number(newP);
+    if (!Number.isNaN(parsed) && parsed >= 0) {
+      groups[cIdx][1][iIdx][1] = parsed;
+      saveMenu();
+      renderAdmin();
+      renderItems();
+    } else {
+      alert("Please enter a valid price.");
+    }
+  }
+}
+
+function toggleStock(itemName) {
+  const key = k(itemName);
+  stock[key] = stock[key] === false ? true : false;
+  saveStock();
+  renderAdmin();
+  renderItems();
+}
+
+function deleteItem(cIdx, iIdx) {
+  const itemName = groups[cIdx][1][iIdx][0];
+  if (!confirm(`Delete "${itemName}" from menu?`)) return;
+
+  const key = k(itemName);
+  groups[cIdx][1].splice(iIdx, 1);
+  delete stock[key];
+
+  if (groups[cIdx][1].length === 0) {
+    groups.splice(cIdx, 1);
+    current = Math.min(current, Math.max(0, groups.length - 1));
+  }
+
+  saveMenu();
+  saveStock();
+  populateCategoryDropdown();
+  showCategory(current);
+  renderAdmin();
+}
+
+function addNewItem() {
+  const name = document.getElementById("newItemName").value.trim();
+  const price = Number(document.getElementById("newItemPrice").value);
+  const catIndex = Number(document.getElementById("newItemCat").value);
+
+  if (!name || !Number.isFinite(price) || price < 0) {
+    alert("Please enter valid item name and price.");
+    return;
+  }
+
+  groups[catIndex][1].push([name, price]);
+  saveMenu();
+  renderAdmin();
+  renderItems();
+  document.getElementById("newItemName").value = "";
+  document.getElementById("newItemPrice").value = "";
+}
+
+function renderHistory() {
+  const list = document.getElementById("orderHistoryList");
+  if (!list) return;
+
+  if (!orderHistory.length) {
+    list.innerHTML = '<p style="color:#aaa;">No orders yet.</p>';
+    return;
+  }
+
+  list.innerHTML = orderHistory.map((order, index) => `
+    <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(233,185,77,0.25); border-radius:10px; padding:10px; margin-bottom:10px;">
+      <strong style="color:var(--gold);">${order.date} - ${order.time}</strong><br>
+      <span><b>Name:</b> ${order.name}</span><br>
+      <span><b>Type:</b> ${order.mode}</span><br>
+      <span><b>Details:</b> ${order.details.replace(/\n/g, '<br>')}</span><br>
+      <span><b>Items:</b><br>${order.items.map(item => `• ${item}`).join('<br>')}</span><br>
+      <span><b>Total:</b> ₹${order.total}</span>
+    </div>
+  `).join("");
+}
+
+function clearHistory() {
+  if (!confirm("Clear all order history?")) return;
+  orderHistory = [];
+  saveHistory();
+  renderHistory();
+}
+
+function logout() {
+  document.getElementById("admin").classList.add("hidden");
+}
+
+window.addEventListener('load', setup);
+</script>
+</body>
+</html>
